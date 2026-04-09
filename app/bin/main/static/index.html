@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SabayLang IDE - ប្រភេទភាសាកម្មវិធី</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Khmer OS', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        header p {
+            color: #888;
+        }
+        
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .panel {
+            background: #0f0f23;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #2a2a4a;
+        }
+        
+        .panel-header {
+            background: linear-gradient(90deg, #1a1a3e, #2a2a5e);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2a2a4a;
+        }
+        
+        .panel-header h2 {
+            color: #00d9ff;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .run-btn {
+            background: linear-gradient(90deg, #00ff88, #00d9ff);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            color: #1a1a2e;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .run-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.3);
+        }
+        
+        .run-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .editor {
+            width: 100%;
+            height: 400px;
+            background: #0a0a1a;
+            color: #e0e0e0;
+            border: none;
+            padding: 20px;
+            font-family: 'Consolas', 'Monospace', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+        }
+        
+        .output-panel {
+            min-height: 200px;
+        }
+        
+        .output {
+            padding: 20px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: 'Consolas', 'Monospace', monospace;
+            font-size: 14px;
+            color: #00ff88;
+            white-space: pre-wrap;
+            background: #0a0a1a;
+        }
+        
+        .output.error {
+            color: #ff4444;
+        }
+        
+        .output:empty::before {
+            content: "ប្រតិបត្តិកម្មកូដរបស់អ្នកនៅទីនេះ...";
+            color: #555;
+        }
+        
+        .help-section {
+            background: #0f0f23;
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid #2a2a4a;
+            color: #aaa;
+            line-height: 1.8;
+        }
+        
+        .help-section h3 {
+            color: #00d9ff;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .help-section code {
+            background: #1a1a3e;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #00ff88;
+        }
+        
+        .help-section pre {
+            background: #1a1a3e;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .help-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .help-card {
+            background: #1a1a3e;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #2a2a4a;
+        }
+        
+        .help-card h4 {
+            color: #00d9ff;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .editor-container {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 SabayLang IDE</h1>
+            <p>ភាសាកម្មវិធីខ្មែរ - Khmer Programming Language</p>
+        </header>
+        
+        <div class="editor-container">
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>📝 កូដ (Code)</h2>
+                    <button class="run-btn" onclick="runCode()">▶ រៀបចំ (Run)</button>
+                </div>
+                <textarea class="editor" id="codeEditor" spellcheck="false">
+តាង ចំនួន ក = 10;
+តាង ចំនួន ខ = 20;
+តាង ចំនួន គ = ក + ខ;
+ហៅ គ;
+
+បើសិន ក > 5 {
+    ហៅ "ក ធំជាង 5";
+}
+ផ្សេង {
+    ហៅ "ក តូចជាង 5";
+}
+</textarea>
+            </div>
+            
+            <div class="panel output-panel">
+                <div class="panel-header">
+                    <h2>📋 លទ្ធផល (Output)</h2>
+                </div>
+                <div class="output" id="output"></div>
+            </div>
+        </div>
+        
+        <div class="help-section">
+            <h3>📚 មេរៀន & ឧទាហរណ៍</h3>
+            
+            <div class="help-grid">
+                <div class="help-card">
+                    <h4>🔢 ប្រភេទទិន្ន័យ (Data Types)</h4>
+                    <pre>// ចំនួន (Integer)
+តាង ក = 10;
+
+// ចំនួន ទស (Double)  
+តាង ខ = 3.14;
+
+// តួអក្សរ (String)
+តាង គ = "សួស្តី";</pre>
+                </div>
+                
+                <div class="help-card">
+                    <h4>🔄 ប្រមាណវិធី (Operators)</h4>
+                    <pre>// បូក (+) ដក (-) គុណ (×) ចែក (÷)
+តាង ក = 10 + 5;   // = 15
+តាង ខ = 10 - 5;   // = 5
+តាង គ = 10 * 2;   // = 20
+តាង ឃ = 10 / 2;   // = 5</pre>
+                </div>
+                
+                <div class="help-card">
+                    <h4>🔀 លក្ខណៈ (Conditions)</h4>
+                    <pre>// បើសិន (if) ម្យ៉ាងវិញ (else if) ផ្សេង (else)
+បើសិន ក > 10 {
+    ហៅ "ក ធំ";
+}
+ម្យ៉ាងវិញ បើសិន ក == 10 {
+    ហៅ "ក ស្មើ";
+}
+ផ្សេង {
+    ហៅ "ក តូច";
+}</pre>
+                </div>
+                
+                <div class="help-card">
+                    <h4>📊 ប្រៀបធៀប (Comparison)</h4>
+                    <pre>// == ស្មើ  != មិនស្មើ
+// >  ធំជាង  < តូចជាង  
+// >= ធំជាង ឬ ស្មើ  <= តូចជាង ឬ ស្មើ
+
+បើសិន ក >= 18 {
+    ហៅ "អាយុគ្រប់";
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        async function runCode() {
+            const code = document.getElementById('codeEditor').value;
+            const output = document.getElementById('output');
+            const runBtn = document.querySelector('.run-btn');
+            
+            output.classList.remove('error');
+            output.textContent = '';
+            runBtn.disabled = true;
+            runBtn.textContent = '⏳ កំពុងរៀបចំ...';
+            
+            try {
+                const response = await fetch('/api/run', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ code: code })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    if (result.output && result.output.length > 0) {
+                        output.textContent = result.output.join('\n');
+                    } else {
+                        output.textContent = 'គ្មានលទ្ធផល...';
+                    }
+                } else {
+                    output.classList.add('error');
+                    output.textContent = result.errors ? result.errors.join('\n') : 'មានកំហុស';
+                }
+            } catch (error) {
+                output.classList.add('error');
+                output.textContent = 'មានកំហុសក្នុងការតភ្ជាប់: ' + error.message;
+            }
+            
+            runBtn.disabled = false;
+            runBtn.textContent = '▶ រៀបចំ (Run)';
+        }
+    </script>
+</body>
+</html>
