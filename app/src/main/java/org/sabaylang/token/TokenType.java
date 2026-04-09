@@ -25,9 +25,11 @@ public enum TokenType {
     LPARENTHESIS,
     RPARENTHESIS,
     PLUS,
+    MINUS,
+    STAR,
+    SLASH,
     NUMBER,
     STRING,
     SEMICOLON,
     EOF
-
 }

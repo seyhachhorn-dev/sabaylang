@@ -33,7 +33,7 @@ public class Parser {
     private Stmt statement() {
         if (match(TokenType.ហៅ)) {
             Expr expr = expression();
-            consume(TokenType.SEMICOLON, "Expected ';' after print statement.");
+            consume(TokenType.SEMICOLON, "Expected ';' or '។' after print statement.");
             return new Stmt.PrintStmt(expr);
         }
 
@@ -44,7 +44,7 @@ public class Parser {
             String varName = consume(TokenType.IDENTIFIER, "Expected variable name.").getLexerName();
             consume(TokenType.EQUAL, "Expected '=' after variable name.");
             Expr initializer = expression();
-            consume(TokenType.SEMICOLON, "Expected ';' after variable declaration.");
+            consume(TokenType.SEMICOLON, "Expected ';' or '។' after variable declaration.");
             return new Stmt.VarDeclStmt(varName, initializer, null);
         }
 
@@ -63,7 +63,7 @@ public class Parser {
                     List<Stmt> elseifBody = block();
                     branches.add(new Stmt.IfBranch(elseifCondition, elseifBody));
                 } else if (check(TokenType.ផ្សេង)) {
-                    advance();
+                    // This case is for 'else' without 'if'
                     break;
                 } else {
                     throw error("Expected 'if' or 'else' after 'else if'");
@@ -71,8 +71,7 @@ public class Parser {
             }
             
             List<Stmt> elseBranch = null;
-            if (check(TokenType.ផ្សេង)) {
-                advance();
+            if (match(TokenType.ផ្សេង)) {
                 elseBranch = block();
             }
             
@@ -93,9 +92,25 @@ public class Parser {
     }
 
     private Expr expression() {
+        return addition();
+    }
+
+    private Expr addition() {
+        Expr expr = multiplication();
+
+        while (match(TokenType.PLUS, TokenType.MINUS)) {
+            Token operator = previous();
+            Expr right = multiplication();
+            expr = new Expr.BinaryExpr(expr, operator, right);
+        }
+
+        return expr;
+    }
+
+    private Expr multiplication() {
         Expr expr = comparison();
 
-        while (match(TokenType.PLUS)) {
+        while (match(TokenType.STAR, TokenType.SLASH)) {
             Token operator = previous();
             Expr right = comparison();
             expr = new Expr.BinaryExpr(expr, operator, right);
@@ -107,10 +122,10 @@ public class Parser {
     private Expr comparison() {
         Expr expr = primary();
 
-        while (check(TokenType.EQUAL_EQUAL) || check(TokenType.BANG_EQUAL) ||
-               check(TokenType.GREATER) || check(TokenType.GREATER_EQUAL) ||
-               check(TokenType.LESS) || check(TokenType.LESS_EQUAL)) {
-            Token operator = advance();
+        while (match(TokenType.EQUAL_EQUAL, TokenType.BANG_EQUAL,
+               TokenType.GREATER, TokenType.GREATER_EQUAL,
+               TokenType.LESS, TokenType.LESS_EQUAL)) {
+            Token operator = previous();
             Expr right = primary();
             expr = new Expr.BinaryExpr(expr, operator, right);
         }

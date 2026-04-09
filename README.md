@@ -4,16 +4,16 @@
 
 ---
 
-##  About SabayLang
+## 🌟 About SabayLang
 
 SabayLang is a programming language that allows you to write code in Khmer! It was created as a fun project to learn about programming language implementation.
 
 ### ✨ Features
--  Variable Declaration
--  Math & Comparison Operators
--  If/Else If/Else Conditions
--  Print/Output
--  Web IDE 
+- 🔤 Variable Declaration
+- 🔢 Math & Comparison Operators
+- 🔀 If/Else If/Else Conditions
+- 🎯 Print/Output
+- 📝 Web IDE 
 
 ---
 
@@ -42,6 +42,7 @@ cd sabay-lang
 | បើសិន | if | If condition |
 | ម្យ៉ាងវិញ | else if | Else if |
 | ផ្សេង | else | Else |
+| ។ | ; | Statement Terminator |
 
 ---
 
@@ -49,61 +50,61 @@ cd sabay-lang
 
 ### 1. Variables & Print
 ```khmer
-តាង ចំនួន ក = 10;
-តាង ចំនួន ខ = 20;
-តាង ចំនួន គ = ក + ខ;
-ហៅ គ;
+តាង ចំនួន ក = 10។
+តាង ចំនួន ខ = 20។
+តាង ចំនួន គ = ក + ខ។
+ហៅ គ។
 ```
 **Output:** `30`
 
 ### 2. Comparison
 ```khmer
-តាង ចំនួន ក = 15;
+តាង ចំនួន ក = 15។
 បើសិន ក >= 18 {
-    ហៅ "Age OK";
+    ហៅ "Age OK"។
 }
 ផ្សេង {
-    ហៅ "Age Not OK";
+    ហៅ "Age Not OK"។
 }
 ```
 **Output:** `Age Not OK`
 
 ### 3. If - Else If - Else
 ```khmer
-តាង ចំនួន ក = 75;
+តាង ចំនួន ក = 75។
 បើសិន ក >= 90 {
-    ហៅ "A";
+    ហៅ "A"។
 }
 ម្យ៉ាងវិញ បើសិន ក >= 80 {
-    ហៅ "B";
+    ហៅ "B"។
 }
 ម្យ៉ាងវិញ បើសិន ក >= 70 {
-    ហៅ "C";
+    ហៅ "C"។
 }
 ផ្សេង {
-    ហៅ "F";
+    ហៅ "F"។
 }
 ```
 **Output:** `C`
 
 ### 4. Double (Decimal)
 ```khmer
-តាង ចំនួន ក = 3.14;
-តាង ចំនួន ខ = 2.5;
-តាង ចំនួន គ = ក * ខ;
-ហៅ គ;
+តាង ចំនួន ក = 3.14។
+តាង ចំនួន ខ = 2.5។
+តាង ចំនួន គ = ក * ខ។
+ហៅ គ។
 ```
 **Output:** `7.85`
 
 ### 5. String
 ```khmer
-ហៅ "សួស្តីប្រទេសកម្ពុជា!";
+ហៅ "សួស្តីប្រទេសកម្ពុជា!"។
 ```
 **Output:** `សួស្តីប្រទេសកម្ពុជា!`
 
 ---
 
-##  Project Structure
+## 🎮 Project Structure
 
 ```
 app/
@@ -133,6 +134,3 @@ app/
 ## 📝 License
 
 MIT License - Use it for fun! 
-
----
-

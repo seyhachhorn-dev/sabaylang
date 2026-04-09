@@ -11,8 +11,6 @@ import java.util.List;
  * Date: 09/04/2026
  */
 
-
-
 public class Lexer {
     private final String source;
     private final List<Token> tokens = new ArrayList<>();
@@ -27,11 +25,14 @@ public class Lexer {
             char c = advance();
 
             switch (c) {
-                case ' ', '\r', '\t', '\n' -> {
-                    // ignore whitespace
+                case ' ', '\r', '\t', '\n', '\u200B', '\u200C', '\u200D' -> {
+                    // ignore whitespace and zero-width characters common in Khmer typing
                 }
                 case '"' -> string();
                 case '+' -> tokens.add(new Token(TokenType.PLUS, "+"));
+                case '-' -> tokens.add(new Token(TokenType.MINUS, "-"));
+                case '*' -> tokens.add(new Token(TokenType.STAR, "*"));
+                case '/' -> tokens.add(new Token(TokenType.SLASH, "/"));
                 case '=' -> {
                     if (peek() == '=') {
                         advance();
@@ -65,6 +66,7 @@ public class Lexer {
                 case '{' -> tokens.add(new Token(TokenType.LBRACE, "{"));
                 case '}' -> tokens.add(new Token(TokenType.RBRACE, "}"));
                 case ';' -> tokens.add(new Token(TokenType.SEMICOLON, ";"));
+                case '\u17D4' -> tokens.add(new Token(TokenType.SEMICOLON, "។"));
                 default -> {
                     if (isDigit(c)) {
                         number(c);
@@ -92,12 +94,6 @@ public class Lexer {
         advance();
         tokens.add(new Token(TokenType.STRING, sb.toString()));
     }
-
-
-
-
-
-
 
     private void identifier(char first) {
         StringBuilder sb = new StringBuilder();
@@ -138,37 +134,49 @@ public class Lexer {
             }
             sb.append(advance());
         }
-        tokens.add(new Token(TokenType.NUMBER, sb.toString()));
+        
+        String numStr = sb.toString();
+        // Convert Khmer digits to Western digits for parsing if necessary
+        numStr = convertKhmerDigits(numStr);
+        
+        tokens.add(new Token(TokenType.NUMBER, numStr));
     }
 
-
-
+    private String convertKhmerDigits(String input) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : input.toCharArray()) {
+            if (c >= '\u17E0' && c <= '\u17E9') {
+                sb.append((char) (c - '\u17E0' + '0'));
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
 
     private boolean isAtEnd(){
-        return  current >= source.length();
+        return current >= source.length();
     }
+    
     private char advance(){
         return source.charAt(current++);
     }
+    
     private boolean isDigit(char c){
-        return c >='0' && c<= '9';
+        return (c >= '0' && c <= '9') || (c >= '\u17E0' && c <= '\u17E9');
     }
+    
     private char peek(){
+        if (isAtEnd()) return '\0';
         return source.charAt(current);
     }
 
     private boolean isAlpha(char c){
-        return (c >= 'a' && c <='z' || c>='A' && c<='Z' || c == '_' || (c >= '\u1780' && c <= '\u17FF'));
+        return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || 
+               (c >= '\u1780' && c <= '\u17D3') || c == '\u17D7';
     }
 
     private boolean isAlphaNumeric(char c) {
         return isAlpha(c) || isDigit(c);
     }
-
-
 }
-
-
-//store num
-
-

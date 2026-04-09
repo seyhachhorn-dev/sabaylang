@@ -36,7 +36,7 @@ public class Interpreter {
 
         if (stmt instanceof Stmt.PrintStmt printStmt) {
             Object value = evaluate(printStmt.getExpression());
-            String output = String.valueOf(value);
+            String output = (value == null) ? "null" : String.valueOf(value);
             if (outputConsumer != null) {
                 outputConsumer.accept(output);
             } else {
@@ -66,13 +66,14 @@ public class Interpreter {
     }
 
     private boolean isTruthy(Object value) {
+        if (value == null) return false;
         if (value instanceof Boolean) {
             return (Boolean) value;
         }
         if (value instanceof Number) {
             return ((Number) value).doubleValue() != 0;
         }
-        return value != null;
+        return true;
     }
 
     private Object evaluate(Expr expr) {
@@ -86,7 +87,7 @@ public class Interpreter {
 
         if (expr instanceof Expr.VariableExpr varExpr) {
             Object value = variables.get(varExpr.getName());
-            if (value == null) {
+            if (value == null && !variables.containsKey(varExpr.getName())) {
                 throw new RuntimeException("Undefined variable: " + varExpr.getName());
             }
             return value;
@@ -97,30 +98,45 @@ public class Interpreter {
             Object right = evaluate(binaryExpr.getRight());
             TokenType operatorType = binaryExpr.getOperator().getType();
 
-            if (operatorType == TokenType.PLUS) {
-                if (left instanceof Double || right instanceof Double) {
-                    return toDouble(left) + toDouble(right);
+            switch (operatorType) {
+                case PLUS -> {
+                    if (left instanceof String || right instanceof String) {
+                        return String.valueOf(left) + String.valueOf(right);
+                    }
+                    if (left instanceof Double || right instanceof Double) {
+                        return toDouble(left) + toDouble(right);
+                    }
+                    return (Integer) left + (Integer) right;
                 }
-                return (Integer) left + (Integer) right;
-            }
-
-            if (operatorType == TokenType.EQUAL_EQUAL) {
-                return equals(left, right);
-            }
-            if (operatorType == TokenType.BANG_EQUAL) {
-                return !equals(left, right);
-            }
-            if (operatorType == TokenType.GREATER) {
-                return toDouble(left) > toDouble(right);
-            }
-            if (operatorType == TokenType.GREATER_EQUAL) {
-                return toDouble(left) >= toDouble(right);
-            }
-            if (operatorType == TokenType.LESS) {
-                return toDouble(left) < toDouble(right);
-            }
-            if (operatorType == TokenType.LESS_EQUAL) {
-                return toDouble(left) <= toDouble(right);
+                case MINUS -> {
+                    return toDouble(left) - toDouble(right);
+                }
+                case STAR -> {
+                    return toDouble(left) * toDouble(right);
+                }
+                case SLASH -> {
+                    double r = toDouble(right);
+                    if (r == 0) throw new RuntimeException("Division by zero.");
+                    return toDouble(left) / r;
+                }
+                case EQUAL_EQUAL -> {
+                    return equals(left, right);
+                }
+                case BANG_EQUAL -> {
+                    return !equals(left, right);
+                }
+                case GREATER -> {
+                    return toDouble(left) > toDouble(right);
+                }
+                case GREATER_EQUAL -> {
+                    return toDouble(left) >= toDouble(right);
+                }
+                case LESS -> {
+                    return toDouble(left) < toDouble(right);
+                }
+                case LESS_EQUAL -> {
+                    return toDouble(left) <= toDouble(right);
+                }
             }
         }
 
@@ -128,20 +144,18 @@ public class Interpreter {
     }
 
     private boolean equals(Object a, Object b) {
+        if (a == null && b == null) return true;
+        if (a == null) return false;
         if (a instanceof Double || b instanceof Double) {
             return toDouble(a) == toDouble(b);
-        }
-        if (a instanceof Integer && b instanceof Integer) {
-            return a.equals(b);
         }
         return a.equals(b);
     }
 
     private double toDouble(Object value) {
-        if (value instanceof Double) {
-            return (Double) value;
-        }
-        return ((Integer) value).doubleValue();
+        if (value instanceof Double) return (Double) value;
+        if (value instanceof Integer) return ((Integer) value).doubleValue();
+        throw new RuntimeException("Operand must be a number.");
     }
 
     @FunctionalInterface
