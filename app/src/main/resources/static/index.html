@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SabayLang IDE</title>
+    <link rel="icon" type="image/png" href="/img/sabaylang-icon.png">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <style>
         :root {
             --primary: #FCBF49;
@@ -28,6 +30,12 @@
             --text-secondary: #4a5568;
             --border: #cbd5e0;
             --accent-glow: rgba(252, 191, 73, 0.15);
+        }
+
+        body.light-mode .help-section h3,
+        body.light-mode .help-notes h4,
+        body.light-mode .about-section h3 {
+            color: #000000;
         }
 
         * {
@@ -68,17 +76,9 @@
             gap: 12px;
         }
 
-        .logo-icon {
-            width: 40px;
+        .logo img {
             height: 40px;
-            background: var(--primary);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: 700;
-            color: #003049;
+            width: auto;
         }
 
         .logo h1 {
@@ -108,6 +108,10 @@
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        .btn i {
+            font-size: 1.1rem;
         }
 
         .btn-run {
@@ -399,6 +403,13 @@
             padding: 20px;
         }
 
+        .about-section img {
+            width: 80px;
+            height: auto;
+            margin-bottom: 16px;
+            border-radius: 12px;
+        }
+
         .about-section h3 {
             color: var(--primary);
             font-size: 1.2rem;
@@ -489,13 +500,19 @@
     <div class="app-container">
         <header>
             <div class="logo">
-                <div class="logo-icon">S</div>
+                <img src="/img/sabaylang-icon.png" alt="SabayLang Logo">
                 <h1>Sabay<span>Lang</span></h1>
             </div>
             <div class="header-actions">
-                <button class="btn btn-secondary" id="themeToggle" onclick="toggleTheme()">☀️ របៀបពន្លឺ</button>
-                <button class="btn btn-secondary" onclick="clearCode()">🗑️ សម្អាត</button>
-                <button class="btn btn-run" id="runBtn" onclick="runCode()">▶ ដំណើរការ</button>
+                <button class="btn btn-secondary" id="themeToggle" onclick="toggleTheme()">
+                    <i class="bi bi-sun-fill"></i> ពន្លឺ
+                </button>
+                <button class="btn btn-secondary" onclick="clearCode()">
+                    <i class="bi bi-trash3-fill"></i> សម្អាត
+                </button>
+                <button class="btn btn-run" id="runBtn" onclick="runCode()">
+                    <i class="bi bi-play-fill"></i> ដំណើរការ
+                </button>
             </div>
         </header>
 
@@ -543,24 +560,24 @@
                     
                     <div id="tab-syntax" class="tab-content active">
                         <div class="help-section">
-                            <h3>📖 របៀបសរសេរ</h3>
+                            <h3><i class="bi bi-book"></i> របៀបសរសេរ</h3>
                             <p>SabayLang ជាភាសាកម្មវិធីដែលប្រើពាក្យគន្លឹះភាសាខ្មែរ ដើម្បីសរសេរកូដ।</p>
                             
                             <div class="help-category">
-                                <h4>🔢 ប្រភេទទិន្ន័យ</h4>
+                                <h4><i class="bi bi-hash"></i> ប្រភេទទិន្ន័យ</h4>
                                 <div class="help-code"><span class="keyword">តាង ចំនួន</span> ក = 10<span class="comment"> // ចំនួនគត់</span>
 <span class="keyword">តាង ចំនួន</span> ខ = 3.14<span class="comment"> // ចំនួនទស</span>
 <span class="keyword">តាង</span> គ = "<span class="string">សួស្តី</span>"<span class="comment"> // តួអក្សរ</span></div>
                             </div>
                             
                             <div class="help-category">
-                                <h4>🔢 ប្រមាណវិធី</h4>
+                                <h4><i class="bi bi-plus-slash-minus"></i> ប្រមាណវិធី</h4>
                                 <div class="help-code"><span class="keyword">+</span> បូក    <span class="keyword">-</span> ដក
 <span class="keyword">*</span> គុណ    <span class="keyword">/</span> ចែក</div>
                             </div>
                             
                             <div class="help-category">
-                                <h4>⚖️ ប្រៀបធៀប</h4>
+                                <h4><i class="bi bi-intersect"></i> ប្រៀបធៀប</h4>
                                 <div class="help-code"><span class="keyword">==</span> ស្មើ    <span class="keyword">!=</span> មិនស្មើ
 <span class="keyword">></span> ធំជាង    <span class="keyword"><</span> តូចជាង
 <span class="keyword">>=</span> ធំឬស្មើ    <span class="keyword"><=</span> តូចឬស្មើ</div>
@@ -570,7 +587,7 @@
                     
                     <div id="tab-docs" class="tab-content">
                         <div class="help-section">
-                            <h3>📚 មេរៀន</h3>
+                            <h3><i class="bi bi-journal-text"></i> មេរៀន</h3>
                             
                             <div class="help-category">
                                 <h4>១. ការប្រកាសអថេរ</h4>
@@ -611,10 +628,10 @@
                     
                     <div id="tab-notes" class="tab-content">
                         <div class="help-section">
-                            <h3>💡 ចំណាំសំខាន់</h3>
+                            <h3><i class="bi bi-lightbulb"></i> ចំណាំសំខាន់</h3>
                             
                             <div class="help-notes">
-                                <h4>⚠️ ច្បាប់សរសេរ</h4>
+                                <h4><i class="bi bi-exclamation-triangle"></i> ច្បាប់សរសេរ</h4>
                                 <ul>
                                     <li>បន្ទាប់ពីប្រកាសអថេរ ត្រូវប្រើ <span class="keyword">។</span> (។ ជាសញ្ញាបញ្ចប់)</li>
                                     <li>ប្រើ <span class="keyword">{}</span> សម្រាប់ block កូដ</li>
@@ -637,7 +654,8 @@
                     
                     <div id="tab-about" class="tab-content">
                         <div class="about-section">
-                            <h3>SabayLang</h3>
+                            <img src="/img/sabaylang-logo.png" style="height: 150px; width:150px "  alt="SabayLang Illustration">
+<!--                            <h3>SabayLang</h3>-->
                             <p>ភាសាកម្មវិធីភាសាខ្មែរ<br>Khmer Programming Language</p>
                             <p style="margin-top: 16px; font-size: 0.75rem;">
                                 បង្កើតឡើង ដើម្បីជួយអ្នកចាប់ផ្តើម<br>
@@ -670,11 +688,10 @@
             const body = document.body;
             const themeBtn = document.getElementById('themeToggle');
             body.classList.toggle('light-mode');
-
             if (body.classList.contains('light-mode')) {
-                themeBtn.innerHTML = '🌙 របៀបងងឹត';
+                themeBtn.innerHTML = '<i class="bi bi-moon-stars-fill"></i> ងងឹត';
             } else {
-                themeBtn.innerHTML = '☀️ របៀបពន្លឺ';
+                themeBtn.innerHTML = '<i class="bi bi-sun-fill"></i> ពន្លឺ';
             }
         }
 
@@ -686,7 +703,7 @@
             output.classList.remove('error');
             output.textContent = '';
             runBtn.disabled = true;
-            runBtn.textContent = '⏳ កំពុង...';
+            runBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> កំពុង...';
             runBtn.style.opacity = '0.7';
             
             try {
@@ -714,7 +731,7 @@
             }
             
             runBtn.disabled = false;
-            runBtn.textContent = '▶ ដំណើរការ';
+            runBtn.innerHTML = '<i class="bi bi-play-fill"></i> ដំណើរការ';
             runBtn.style.opacity = '1';
         }
 
