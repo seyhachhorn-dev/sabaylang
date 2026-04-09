@@ -4,16 +4,16 @@
 
 ---
 
-## 🌟 About SabayLang
+##  About SabayLang
 
 SabayLang is a programming language that allows you to write code in Khmer! It was created as a fun project to learn about programming language implementation.
 
 ### ✨ Features
-- 🔤 Variable Declaration
-- 🔢 Math & Comparison Operators
-- 🔀 If/Else If/Else Conditions
-- 🎯 Print/Output
-- 📝 Web IDE 
+-  Variable Declaration
+-  Math & Comparison Operators
+-  If/Else If/Else Conditions
+-  Print/Output
+-  Web IDE 
 
 ---
 
@@ -103,7 +103,7 @@ cd sabay-lang
 
 ---
 
-## 🎮 Project Structure
+##  Project Structure
 
 ```
 app/
