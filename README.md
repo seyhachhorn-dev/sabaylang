@@ -1,4 +1,4 @@
-# 🚀 SabayLang - Khmer Programming Language
+#  SabayLang - Khmer Programming Language
 
 **⚠️ Disclaimer:** This is a fun project for learning and entertainment purposes only! Not for production use! 
 
