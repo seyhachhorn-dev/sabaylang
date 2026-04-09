@@ -495,7 +495,7 @@
             <div class="header-actions">
                 <button class="btn btn-secondary" id="themeToggle" onclick="toggleTheme()">☀️ របៀបពន្លឺ</button>
                 <button class="btn btn-secondary" onclick="clearCode()">🗑️ សម្អាត</button>
-                <button class="btn btn-run" id="runBtn" onclick="runCode()">▶ រៀបចំ</button>
+                <button class="btn btn-run" id="runBtn" onclick="runCode()">▶ ដំណើរការ</button>
             </div>
         </header>
 
@@ -509,13 +509,13 @@
                         <textarea id="codeEditor" spellcheck="false" placeholder="សរសេរកូដរបស់អ្នកនៅទីនេះ...">តាង ចំនួន ក = 10។
 តាង ចំនួន ខ = 20។
 តាង ចំនួន គ = ក + ខ។
-ហៅ គ។
+អាន គ។
 
 បើសិន ក > 5 {
-    ហៅ "ក ធំជាង 5"។
+    អាន "ក ធំជាង 5"។
 }
 ផ្សេង {
-    ហៅ "ក តូចជាង 5"។
+    អាន "ក តូចជាង 5"។
 }</textarea>
                     </div>
                 </div>
@@ -580,17 +580,17 @@
                             
                             <div class="help-category">
                                 <h4>២. ការបង្ហាញលទ្ធផល</h4>
-                                <div class="help-code"><span class="keyword">ហៅ</span> "សារ"។</div>
-                                <p>ប្រើ <span class="keyword">ហៅ</span> ដើម្បីបង្ហាញអត្ថបទ ឬ តំលៃ।</p>
+                                <div class="help-code"><span class="keyword">អាន</span> "សារ"។</div>
+                                <p>ប្រើ <span class="keyword">អាន</span> ដើម្បីបង្ហាញអត្ថបទ ឬ តំលៃ।</p>
                             </div>
                             
                             <div class="help-category">
-                                <h4>៣. លក្ខណៈ If/Else</h4>
-                                <div class="help-code"><span class="keyword">បើសិន</span> លក្ខណៈ {
-    <span class="keyword">ហៅ</span> "True"។
+                                <h4>៣. លខ្ខណ If/Else</h4>
+                                <div class="help-code"><span class="keyword">បើសិន</span> លខ្ខណ {
+    <span class="keyword">អាន</span> "True"។
 }
 <span class="keyword">ផ្សេង</span> {
-    <span class="keyword">ហៅ</span> "False"។
+    <span class="keyword">អាន</span> "False"។
 }</div>
                             </div>
                             
@@ -627,7 +627,7 @@
                                 <h4>🔤 ពាក្យគន្លឹះ</h4>
                                 <div class="help-code"><span class="keyword">តាង</span> - ប្រកាសអថេរ
 <span class="keyword">ចំនួន</span> - ប្រភេទចំនួន
-<span class="keyword">ហៅ</span> - បង្ហាញ
+<span class="keyword">អាន</span> - បង្ហាញ
 <span class="keyword">បើសិន</span> - ប្រសិន
 <span class="keyword">ម្យ៉ាងវិញ</span> - ប្រសិនផ្សេង
 <span class="keyword">ផ្សេង</span> - ផ្សេង</div>
@@ -714,7 +714,7 @@
             }
             
             runBtn.disabled = false;
-            runBtn.textContent = '▶ រៀបចំ';
+            runBtn.textContent = '▶ ដំណើរការ';
             runBtn.style.opacity = '1';
         }
 

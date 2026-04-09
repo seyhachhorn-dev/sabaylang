@@ -31,7 +31,7 @@ public class Parser {
     }
 
     private Stmt statement() {
-        if (match(TokenType.ហៅ)) {
+        if (match(TokenType.អាន)) {
             Expr expr = expression();
             consume(TokenType.SEMICOLON, "Expected ';' or '។' after print statement.");
             return new Stmt.PrintStmt(expr);

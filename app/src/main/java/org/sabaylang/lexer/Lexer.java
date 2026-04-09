@@ -105,8 +105,8 @@ public class Lexer {
 
         String text = sb.toString();
 
-        if (text.equals("ហៅ")) {
-            tokens.add(new Token(TokenType.ហៅ, text));
+        if (text.equals("អាន")) {
+            tokens.add(new Token(TokenType.អាន, text));
         } else if (text.equals("តាង")) {
             tokens.add(new Token(TokenType.តាង, text));
         } else if (text.equals("ចំនួន")) {

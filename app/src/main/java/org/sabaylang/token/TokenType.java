@@ -6,7 +6,7 @@ package org.sabaylang.token;
  */
 
 public enum TokenType {
-    ហៅ,
+    អាន,
     តាង,
     ចំនួន,
     បើសិន,
